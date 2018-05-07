@@ -9,9 +9,9 @@ theta= (math.pi)/4  #you can change any theta you want
 P = [[np.cos(theta),np.sin(theta)],[0,0]] #Shift Operator 
 Q = [[0,0],[np.sin(theta),-np.cos(theta)]] #Shift Operator
 x_list=[]#xline  
-t_list=[]#time
-p_list=[]#probability
-s_list=[]#state
+t_list=[]#all time
+p_list=[]#all probability depend on x
+s_list=[]#all state depend on x
 
 for x in range(0,2*n+1): #you can arange the range you want
     if x == n:           #the start 
