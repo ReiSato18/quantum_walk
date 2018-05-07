@@ -4,7 +4,7 @@ import math
 
 #set the environment
 n=300
-theta= 10*(math.pi)/12
+theta= (math.pi)/4  #you can change any theta you want
 
 P = [[np.cos(theta),np.sin(theta)],[0,0]] #Shift Operator 
 Q = [[0,0],[np.sin(theta),-np.cos(theta)]] #Shift Operator
