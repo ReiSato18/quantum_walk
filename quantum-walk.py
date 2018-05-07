@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.animation as animation
 
 #set the environment
 n=300
