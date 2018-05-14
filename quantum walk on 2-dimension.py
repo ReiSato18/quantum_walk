@@ -5,9 +5,9 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 #import matplotlib.animation as animation
 
-#環境設定
-n=10  #tの範囲
-m=15  #偶数
+#set the environment
+n=10  #scal of t
+m=15  #scal of x,y
 
 P = [[-1/2, 1/2, 1/2, 1/2],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
 Q = [[0,0,0,0],[1/2, -1/2, 1/2, 1/2],[0,0,0,0],[0,0,0,0]]
