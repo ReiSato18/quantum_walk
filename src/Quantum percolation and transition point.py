@@ -14,7 +14,7 @@ p=1/2
 q=1-p
 
 
-#ユニタリー行列
+
 P = [[-p, q, math.sqrt(p*q), math.sqrt(p*q)],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
 Q = [[0,0,0,0],[q, -p, math.sqrt(p*q), math.sqrt(p*q)],[0,0,0,0],[0,0,0,0]]
 R = [[0,0,0,0],[0,0,0,0],[math.sqrt(p*q), math.sqrt(p*q), -q, p],[0,0,0,0]]
@@ -24,7 +24,7 @@ t_list = []
 x_list = []
 y_list = []
 
-phi_map = np.zeros((2*m+1, 2*m+1,4)) #np.zeros((行,列,[]の中身の数))
+phi_map = np.zeros((2*m+1, 2*m+1,4)) 
 phi_map[m,m]= np.array([1,0,0,0])
 
 p_map=np.zeros([2*m+1,2*m+1])
@@ -43,7 +43,7 @@ for t in range(0,n+1):
         p_map
     else:
         next_phi_map = np.zeros((2*m+1,2*m+1, 4))
-        final_phi_map = np.zeros((2*m+1,2*m+1,4)) #誤作動起こさない為に、最終のnext_phi_mapを収納する
+        final_phi_map = np.zeros((2*m+1,2*m+1,4)) 
         for x in range(0,2*m+1):
             if x == 0:
                 for y in range(m,2*m+1):
@@ -105,7 +105,7 @@ ax.set_xlim(2*m,0)
 ax.set_ylim(0,2*m)
 ax.set_zlim(0,0.004)
 
-#Z軸の色を設定
+
 offset = p_map.ravel() + np.abs(p_map.min())
 fracs = offset.astype(float)/offset.max()
 norm = colors.Normalize(fracs.min(), fracs.max())
