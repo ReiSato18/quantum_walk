@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+
+#まだ完成していない！！！！！！！！！！！！！！
+
 n=4
 m=3
 theta=3*(math.pi)/12
