@@ -4,9 +4,9 @@ import math
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 import matplotlib.colors as colors
-#import matplotlib.animation as animation
 
-#環境設
+#this program is assured for 「Quantum percolation and transition point of a directed discrete-time quantum walk by C.M.Chandrashekar and Th.Busch」 
+
 n=10  #tの範囲
 m=20  #xy
 
