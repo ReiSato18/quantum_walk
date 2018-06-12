@@ -50,7 +50,7 @@ for t in range(0,m+1):
         P_list
     else:
         next_s_list = [0]*len(s_list)
-        next_P_list = [0]*len(P_list) #listと同じ要素の数ですべて0を用意（初期化）
+        next_P_list = [0]*len(P_list) 
         for i in range(0,2*n+1):
             if i == 0:
                 next_s_list[i] = np.dot(P, s_list[i+1])
