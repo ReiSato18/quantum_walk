@@ -5,84 +5,75 @@ import math
 
 #まだ完成していない！！！！！！！！！！！！！！
 
-n=4
-m=3
+N=4  #step数
+n=4  #座標の修得
+m=3  #時間
 theta=3*(math.pi)/12
 
 x_list=[]
 t_list=[]
 phi_list=[]
+shift_phi=[]
+Shiftphi=[]
 init_phi=[]
-new_phi=[]
 p_list=[]
 
-for i in range(0,2*n+1):
-    a=[0,0]
-    new_phi.append(a)
-    phi_list.append(a)
-    #p_list.append(i)
+for i in range(0,2*N+1):
+    shift_phi.append([0,0])
+    phi_list.append([0,0])
+    Shiftphi.append([0,0])
+    p_list.append(0)
 
-def xline():
-    for i in range(0,2*n+1):
-        x_list.append(i)
-    return x_list
-#print(xline()[n])
-
+#量子コイン
 def quantumcoin(theta):
-    C = [[np.cos(theta),-np.sin(theta)],[np.sin(theta),np.cos(theta)]]
+    C = [[np.cos(theta),-np.sin(theta)],
+        [np.sin(theta),np.cos(theta)]]
     return C
-#print(quantumcoin(3*(math.pi)/12))
 
-#t=0の時のphi状態
+
+#初期のphi状態の定義
 def initPositionPhi():
-    phi = [1,0]
-    othersphi=[0,0]
     for i in range(0,2*n+1):
         if i == n:
-            init_phi.append(phi)
+            init_phi.append([1,0])
         else:
-            init_phi.append(othersphi)
+            init_phi.append([0,0])
     return init_phi
-#print(initPositionPhi())
 
-def CoinOperator(x,new_phi):
-    new_phi[x]=np.dot(quantumcoin(theta),new_phi[x])
-    return new_phi[x]
-print(CoinOperator(n,initPositionPhi()))
+#量子コインの動作定義
+def Coin_phi(x, step, phi):
+    Coinphi=[]
+    for i in range(0,2*n+1):
+        Coinphi.append([0,0])
+    for s in range(0,step):
+        Coinphi[x] = np.dot(quantumcoin(theta), phi_list[x])
+    return Coinphi[x]
+#print(Coin_phi(1,1,initPositionPhi()))
 
-#a=(CoinOperator(1,initPositionPhi()))[n][0]
-#print(a)
+#Shiftoperatorの定義
+def Shift_phi(x):
+    for x in range(0,2*n+1):
+        if x == 0:
+            Shiftphi[x][1]=Coin_phi(x+1,step,shift_phi[x+1])[1]
+        elif x == 2*n:
+            Shiftphi[x][0]=Coin_phi(x-1,step,shift_phi[x-1])[0]
+        else:
+            Shiftphi[x][1]=Coin_phi(x+1,step,shift_phi[x+1])[1]
+            Shiftphi[x][0]=Coin_phi(x-1,step,shift_phi[x-1])[0]
+        return Shiftphi[x]
 
-#def ShiftOperator(steps,phi):
-for t in range(1,m+1):
-    #if t==0:
-        #initPositionPhi()
-    if t==1:
-        new_phi[n-t][1] = (CoinOperator(n,initPositionPhi()))[1]
-        new_phi[n+t][0] = (CoinOperator(n,initPositionPhi()))[0]
-        print(t,new_phi)
-    else:#t=2~3
-        new_phi[n-t] = (CoinOperator(n-(t-1),new_phi))[1] + (CoinOperator(n-(t+1),new_phi))[0]
-        new_phi[n+t] = (CoinOperator(n+(t-1),new_phi))[0] + (CoinOperator(n+(t+1),new_phi))[1]
-    print(t,new_phi)
-
-
-        #if x==0:
-            #new_phi[x+1][0]=(CoinOperator(x,new_phi[x]))[x][0]
-        #if x==2*n:
-            #new_phi[x-1][1]=(CoinOperator(x,new_phi[x]))[x][1]
-        #else:
-            #new_phi[x+1][0]=(CoinOperator(x,new_phi[x]))[x][0]
-            #new_phi[x-1][1]=(CoinOperator(x,new_phi[x]))[x][1]
-
-
-            #elif x==2*n:
-                #new_phi[n+t][0]=(CoinOperator(1,new_phi[n+(t-1)]))[n+(t-1)][0]
-                #new_phi[n-t][1]=(CoinOperator(1,new_phi[n-(t-1)]))[n-(t-1)][1]
-            #else:
-    #print(t,new_phi)
-    #print(t,final_phi)
-    #for x in range(0,2*n+1):
-        #final_phi[x]=np.dot(quantumcoin(theta),final_phi[x])
-    #return new_phi
-#print(final_phi)
+#量子ウォークのメイン動作
+for step in range(0,N): #状態計算
+    if step == 0:
+        phi_list=initPositionPhi()
+    else:
+        for x in range(0,2*n+1):
+            Coin_phi(x,step,phi_list)
+            phi_list[x]=Shift_phi(x)
+    #print(phi_list)
+    print(Coin_phi)    
+#結果以下（おかしい）    
+<function Coin_phi at 0x00000284714BBEA0>
+<function Coin_phi at 0x00000284714BBEA0>
+<function Coin_phi at 0x00000284714BBEA0>
+<function Coin_phi at 0x00000284714BBEA0>
