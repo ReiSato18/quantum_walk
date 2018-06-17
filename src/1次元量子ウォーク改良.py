@@ -71,9 +71,5 @@ for step in range(0,N): #状態計算
             Coin_phi(x,step,phi_list)
             phi_list[x]=Shift_phi(x)
     #print(phi_list)
-    print(Coin_phi)    
-#結果以下（おかしい）    
-<function Coin_phi at 0x00000284714BBEA0>
-<function Coin_phi at 0x00000284714BBEA0>
-<function Coin_phi at 0x00000284714BBEA0>
-<function Coin_phi at 0x00000284714BBEA0>
+    print(Coin_phi())    
+
