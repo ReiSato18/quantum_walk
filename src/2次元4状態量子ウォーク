@@ -3,28 +3,35 @@ import matplotlib.pyplot as plt
 import math
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
+import matplotlib.colors as colors
 #import matplotlib.animation as animation
 
-#set the environment
-n=10  #scal of t
-m=15  #scal of x,y
+#環境設
+n=50  #tの範囲
+m=50  #偶数
 
-P = [[-1/2, 1/2, 1/2, 1/2],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-Q = [[0,0,0,0],[1/2, -1/2, 1/2, 1/2],[0,0,0,0],[0,0,0,0]]
-R = [[0,0,0,0],[0,0,0,0],[1/2, 1/2, -1/2, 1/2],[0,0,0,0]]
-S = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[1/2, 1/2, 1/2, -1/2]]
+p=1/2
+q=1-p
+
+#coinOperatorとshiftoperatorをつくってU=SCとしてやった方が良い
+
+#ユニタリー行列
+P = [[p, q, math.sqrt(p*q), math.sqrt(p*q)],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+Q = [[0,0,0,0],[p, 1j*q, -math.sqrt(p*q), -1j*math.sqrt(p*q)],[0,0,0,0],[0,0,0,0]]
+R = [[0,0,0,0],[0,0,0,0],[math.sqrt(p*q), -math.sqrt(p*q), q, -p],[0,0,0,0]]
+S = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[math.sqrt(p*q), -1j*math.sqrt(p*q), -p, 1j*q]]
 
 t_list = []
 x_list = []
 y_list = []
 
-phi_map = np.zeros((2*m+1, 2*m+1,4)) #np.zeros((行,列,[]の中身の数))
+phi_map = np.zeros((2*m+1, 2*m+1,4),dtype="complex") #np.zeros((行,列,[]の中身の数))
 phi_map[m,m]= np.array([1,0,0,0])
 
 p_map=np.zeros([2*m+1,2*m+1])
 
 for i in range(0,2*m+1):
-    p = np.dot(phi_map[i,i], np.conj(phi_map[i,i]))
+    p = np.real(np.inner(phi_map[i,i], np.conj(phi_map[i,i])))
     p_map[i,i]=p
     x_list.append(i)
     y_list.append(i)
@@ -36,7 +43,7 @@ for t in range(0,n+1):
         phi_map
         p_map
     else:
-        next_phi_map = np.zeros((2*m+1,2*m+1, 4))
+        next_phi_map = np.zeros((2*m+1,2*m+1, 4),dtype="complex")
         for x in range(0,2*m+1):
             if x == 0:
                 for y in range(0,2*m+1):
@@ -62,13 +69,11 @@ for t in range(0,n+1):
                         next_phi_map[x,y] = np.array([np.inner(P, phi_map[x+1,y]) + np.inner(Q, phi_map[x-1,y]) + np.inner(S, phi_map[x,y-1])])
                     else:
                         next_phi_map[x,y] = np.array([np.inner(P, phi_map[x+1,y]) + np.inner(Q, phi_map[x-1,y]) + np.inner(R, phi_map[x,y+1]) + np.inner(S, phi_map[x,y-1])])
-                    p_map[x,y] = np.dot(next_phi_map[x,y], np.conj(next_phi_map[x,y]))
+                    p_map[x,y] = np.real(np.dot(next_phi_map[x,y], np.conj(next_phi_map[x,y])))
         phi_map = next_phi_map
 
     print(t,p_map)
-　　
-　　#real-time(no finished)
-    
+
     #fig = plt.figure()
     #ax = Axes3D(fig)
     #X,Y = np.meshgrid(x_list,y_list)
@@ -81,6 +86,7 @@ for t in range(0,n+1):
     #ax.set_ylim(0,2*m)
     #ax.set_zlim(0,1)
     #ax.plot_wireframe(X, Y, p_map, color ="red", linewidth=1)
+    #plt.plot(t_list,p_map.ravel())
     #plt.pause(0.01)
     #plt.cla()
 
@@ -89,28 +95,31 @@ for t in range(0,n+1):
 
 
 fig = plt.figure()
-ax = Axes3D(fig)
+ax = Axes3D(fig, rect=(0.1,0.1,0.8,0.8))
 X,Y = np.meshgrid(x_list, y_list)
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.set_zlabel("probability")
+#X,T = np.meshgrid(x_list, t_list)
+ax.set_xlabel("x",labelpad=10,fontsize=24)
+ax.set_ylabel("y",labelpad=20,fontsize=24)
+ax.set_zlabel("$|\psi|^2$",labelpad=10,fontsize=24)
+#ax.set_ylabel("t")
 
 ax.set_xlim(2*m,0)
 ax.set_ylim(0,2*m)
-ax.set_zlim(0,0.35)
-#ax = fig.add_subplot((2*m,2*m), projection="3d")
-#surf = ax.plot_surface(X, Y, p_map, cmap =cm.coolwarm , linewidth=0)
+ax.set_zlim(0,0.02)
 
 #Z軸の色を設定
-offset = p_map.ravel() + np.abs(p_map.min())
+mask= p_map > 0.0
+offset = p_map[mask].ravel() + np.abs(p_map[mask].min())
 fracs = offset.astype(float)/offset.max()
 norm = colors.Normalize(fracs.min(), fracs.max())
 clrs = cm.cool(norm(fracs))
 
-#ax.bar3d(x_list,y_list,p_map,dx,dy,dz)
-#fig.colorbar(surf)
-ax.bar3d(X.ravel(), Y.ravel(), p_map.ravel() ,0.1, 0.1, -p_map.ravel(),color ="red")#,cmap=cm.hot)
+ax.bar3d(X[mask].ravel(), Y[mask].ravel(), p_map[mask].ravel() ,0.3, 0.3, -p_map[mask].ravel(),color =clrs)
 ax.w_xaxis.set_pane_color((0, 0, 0, 0))
 ax.w_yaxis.set_pane_color((0, 0, 0, 0))
-ax.w_zaxis.set_pane_color((0, 0, 0, 0))
+ax.w_zaxis.set_pane_color((0, 0, 0, 1))
+
+ax.grid(color="white")
+ax.grid(False)
 plt.show()
+
