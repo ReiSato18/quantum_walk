@@ -115,14 +115,19 @@ ax.set_ylim(0,2*m)
 ax.set_zlim(0,0.004)
 
 #Z軸の色を設定
-offset = p_map.ravel() + np.abs(p_map.min())
+#カラフル
+mask= p_map > 0.0
+offset = p_map[mask].ravel() + np.abs(p_map[mask].min())
 fracs = offset.astype(float)/offset.max()
 norm = colors.Normalize(fracs.min(), fracs.max())
 clrs = cm.cool(norm(fracs))
-
-ax.bar3d(X.ravel(), Y.ravel(), p_map.ravel() ,0.3, 0.3, -p_map.ravel(),color =clrs)#,cmap=cm.hot)
+#p_map[p_map<=0.0]=np.nan
+#単色
+ax.bar3d(Y[mask].ravel(), X[mask].ravel(), p_map[mask].ravel() ,0.5, 0.5, -p_map[mask].ravel(),color =clrs)
 ax.w_xaxis.set_pane_color((0, 0, 0, 0))
 ax.w_yaxis.set_pane_color((0, 0, 0, 0))
-ax.w_zaxis.set_pane_color((0, 0, 0, 0))
+ax.w_zaxis.set_pane_color((0, 0, 0, 1))
+ax.grid(color="white")
+ax.grid(False)
+#p_map[p_map<=0.0]=np.nan
 plt.show()
-
