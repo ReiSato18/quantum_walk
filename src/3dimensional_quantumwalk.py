@@ -4,6 +4,7 @@ import matplotlib.animation as animation
 import numpy as np
 import matplotlib.colors as colors
 #############################
+#quantumwalk on cubic scaled n*n*n
 n=3
 p_map = np.zeros((2*n+1)*(2*n+1)*(2*n+1)).reshape(2*n+1,2*n+1,2*n+1) #3æ¬¡å…ƒåº§æ¨™
 phi_map = np.zeros(((2*n+1),(2*n+1),(2*n+1),6),dtype="complex")
