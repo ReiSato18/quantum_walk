@@ -115,7 +115,7 @@ for t in range(0,n+1):
                             else:
                                 next_phi_map[x,y,z]=np.array([np.dot(R,phi_map[x-1,y,z])+np.dot(L,phi_map[x+1,y,z])+np.dot(B,phi_map[x,y+1,z])+
                                                               np.dot(U,phi_map[x,y,z-1])+np.dot(D,phi_map[x,y,z+1])])
-                    elif y == 2n:
+                    elif y == 2*n:
                         for z in range(0,2*n+1):
                             if z == 0:
                                 next_phi_map[x,y,z]=np.array([np.dot(R,phi_map[x-1,y,z])+np.dot(L,phi_map[x+1,y-1,z])+
