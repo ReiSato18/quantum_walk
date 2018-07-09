@@ -154,5 +154,12 @@ ax.w_zaxis.set_pane_color((0, 0, 0, 1))
 ax.grid(color="white")
 ax.grid(False)
 mask =p_map>0.0
+#####################
+mask =p_map>0.0
+offset = p_map[mask].ravel() + np.abs(p_map[mask].min())
+fracs = offset.astype(float)/offset.max()
+norm = colors.Normalize(fracs.min(), fracs.max())
+clrs = cm.flag(norm(fracs))
+####################
 ax.scatter(X[mask].ravel(),Y[mask].ravel(),Z[mask].ravel(), p_map[mask].ravel(), color="red")
 plt.show()
