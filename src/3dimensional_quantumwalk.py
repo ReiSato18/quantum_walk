@@ -6,7 +6,7 @@ import matplotlib.colors as colors
 #############################
 #quantumwalk on cubic scaled n*n*n
 n=3
-p_map = np.zeros((2*n+1)*(2*n+1)*(2*n+1)).reshape(2*n+1,2*n+1,2*n+1) #3æ¬¡å…ƒåº§æ¨™
+p_map = np.zeros((2*n+1)*(2*n+1)*(2*n+1)).reshape(2*n+1,2*n+1,2*n+1) 
 phi_map = np.zeros(((2*n+1),(2*n+1),(2*n+1),6),dtype="complex")
 phi_map[n,n,n]=np.array([1,0,0,0,0,0])
 p_map[n,n,n]=np.real(np.inner(phi_map[n,n,n],np.conj(phi_map[n,n,n])))
@@ -141,3 +141,21 @@ for t in range(0,n+1):
                             p_map[x,y,z]=np.real(np.inner(next_phi_map[x,y,z],np.conj(next_phi_map[x,y,z])))
         phi_map = next_phi_map
     print(t,p_map)
+  
+fig = plt.figure()
+ax = Axes3D(fig, rect=(0.1,0.1,0.8,0.8))
+X,Y,Z=np.meshgrid(x_list,y_list,z_list)
+ax.set_xlabel("x",labelpad=10,fontsize=24)
+ax.set_ylabel("y",labelpad=10,fontsize=24)
+ax.set_zlabel("z",labelpad=10,fontsize=24)
+ax.set_xlim(2*n,0)
+ax.set_ylim(0,2*n)
+ax.set_zlim(0,2*n)
+ax.w_xaxis.set_pane_color((0, 0, 0, 0))
+ax.w_yaxis.set_pane_color((0, 0, 0, 0))
+ax.w_zaxis.set_pane_color((0, 0, 0, 1))
+ax.grid(color="white")
+ax.grid(False)
+mask =p_map>0.0
+ax.scatter(X[mask].ravel(),Y[mask].ravel(),Z[mask].ravel(), p_map[mask].ravel(), color="red")
+plt.show()
