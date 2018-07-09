@@ -10,9 +10,6 @@ p_map = np.zeros((2*n+1)*(2*n+1)*(2*n+1)).reshape(2*n+1,2*n+1,2*n+1)
 phi_map = np.zeros(((2*n+1),(2*n+1),(2*n+1),6),dtype="complex")
 phi_map[n,n,n]=np.array([1,0,0,0,0,0])
 p_map[n,n,n]=np.real(np.inner(phi_map[n,n,n],np.conj(phi_map[n,n,n])))
-x_list=[]
-y_list=[]
-z_list=[]
 r_list=[]#x,y,zの長さ収納用
 t_list=[]
 x_list=[i for i in range(2*n+1)]
