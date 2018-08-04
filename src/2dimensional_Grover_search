@@ -46,7 +46,11 @@ for t in range(0,step+1):
         phi_map = np.copy(next_phi_map)
     #print(t,p_map.sum())
 
-    #mean = (np.real(phi_map)).sum()/(4*4*(n**2))
-
-    #grover_phi_map = 2*mean - phi_map
     p_list.append(np.real(np.vdot(phi_map[8,8], phi_map[8,8])))
+
+plt.xlabel("t",fontsize="24")
+plt.ylabel("probability",fontsize="24")
+plt.plot(t_list,p_list,color="red",label="quantum walk",linewidth="1")
+plt.legend(title="markedvertexprobablity",loc="best",fontsize=10)
+plt.tight_layout()
+plt.show()
