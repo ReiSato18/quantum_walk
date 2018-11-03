@@ -1,1 +1,1 @@
-I'm now studying spatial search using quantum walk.
+spatial search using discreate quantum walk.
