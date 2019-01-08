@@ -1,1 +1,1 @@
-spatial search using discreate quantum walk.
+spatial search using discreate time quantum walk.
