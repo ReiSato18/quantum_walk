@@ -2,14 +2,10 @@
 #C = [-1/2 1/2 1/2 1/2;1/2 -1/2 1/2 1/2;1/2 1/2 -1/2 1/2;1/2 1/2 1/2 -1/2]
 #hadamard
 C = [1 1 1 1;1 -1 1 -1;1 1 -1 -1;1 -1 -1 1]/2
-right_m = zeros(Float64,4,4)
-right_m[1,:] = C[1,:]
-left_m = zeros(Float64,4,4) 
-left_m[2,:] = C[2,:]
-up_m = zeros(Float64,4,4)
-up_m[3,:]  = C[3,:]
-down_m = zeros(Float64,4,4)
-down_m[4,:]  = C[4,:]
+right_m = zeros(Float64,4,4);right_m[1,:] = C[1,:]
+left_m = zeros(Float64,4,4);left_m[2,:] = C[2,:]
+up_m = zeros(Float64,4,4);up_m[3,:]  = C[3,:]
+down_m = zeros(Float64,4,4);down_m[4,:]  = C[4,:]
 
 using ProgressMeter
 using LinearAlgebra
